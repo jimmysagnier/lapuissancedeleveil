@@ -1,0 +1,154 @@
+<style>
+:root{
+  --ink:#0E1B2C;
+  --ink-soft:#1B2A3F;
+  --ivory:#F3ECDF;
+  --ivory-2:#EDE3D1;
+  --gold:#C8914B;
+  --gold-deep:#9C6A2E;
+  --moon:#E9D9B6;
+  --terra:#C2543A;
+  --line:rgba(14,27,44,.14);
+  --serif:"Fraunces","Times New Roman",serif;
+  --serif-it:"Instrument Serif",serif;
+  --sans:"Instrument Sans",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--ivory);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{overflow-x:hidden}
+img,video{display:block;max-width:100%}
+::selection{background:var(--gold);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.07;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@keyframes rule-grow{ 0%{opacity:0} 100%{opacity:1} }
+.hero-cgv{
+  position:relative;
+  background:var(--ivory);
+  color:var(--ink);
+  padding:clamp(140px,16vw,200px) clamp(28px,5vw,80px) clamp(60px,8vw,100px);
+  text-align:center;
+  isolation:isolate;
+}
+.hero-cgv::before{
+  content:"";
+  position:absolute; top:0; left:50%;
+  transform:translateX(-50%);
+  width:clamp(80px,9vw,140px); height:1px;
+  background:linear-gradient(90deg,rgba(156,106,46,0) 0%,var(--gold-deep) 50%,rgba(156,106,46,0) 100%);
+  opacity:0;
+  animation:rule-grow 1.4s var(--ease) .25s forwards;
+}
+.hero-cgv .folio{
+  display:inline-flex; align-items:center; gap:12px;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold-deep); margin-bottom:clamp(24px,3vw,36px);
+}
+.hero-cgv .folio .dot{
+  display:inline-block; width:5px; height:5px; border-radius:50%;
+  background:var(--gold-deep); opacity:.7;
+}
+.hero-cgv h1{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(28px,4.5vw,52px);
+  letter-spacing:-.01em; line-height:1.15;
+  color:var(--ink); margin-bottom:clamp(16px,2vw,24px);
+}
+.hero-cgv .subtitle{
+  font-family:var(--sans); font-size:clamp(14px,1.6vw,17px);
+  color:var(--ink); opacity:.65; line-height:1.6;
+  max-width:520px; margin:0 auto;
+}
+.doc-body{
+  max-width:720px; margin:0 auto;
+  padding:clamp(48px,7vw,96px) clamp(28px,5vw,48px) clamp(64px,9vw,120px);
+  opacity:0; transform:translateY(18px);
+  transition:opacity .7s var(--ease), transform .7s var(--ease);
+}
+.doc-body.is-in{ opacity:1; transform:translateY(0); }
+.doc-body h2{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(22px,3vw,30px);
+  letter-spacing:-.01em; line-height:1.2;
+  color:var(--ink); margin-bottom:clamp(32px,4vw,48px);
+}
+.doc-body h3{
+  font-family:var(--sans); font-weight:600;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--gold-deep);
+  margin-bottom:14px;
+  margin-top:clamp(36px,4vw,52px);
+}
+.doc-body h3:first-of-type{ margin-top:0; }
+.doc-body p{
+  font-family:var(--sans); font-size:clamp(15px,1.5vw,16.5px);
+  line-height:1.78; color:var(--ink); opacity:.9;
+  margin-bottom:16px;
+}
+.doc-body ul{ list-style:none; padding:0; margin:8px 0 20px 0; }
+.doc-body ul li{
+  position:relative; padding-left:22px;
+  font-family:var(--sans); font-size:clamp(15px,1.5vw,16.5px);
+  line-height:1.78; color:var(--ink); opacity:.9;
+  margin-bottom:6px;
+}
+.doc-body ul li::before{
+  content:"—";
+  position:absolute; left:0; top:0;
+  color:var(--gold); font-weight:400;
+}
+.doc-body a{
+  color:var(--gold-deep);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-thickness:1px;
+  transition:opacity .2s;
+}
+.doc-body a:hover{ opacity:.75; }
+.doc-body .todo{
+  background:rgba(200,145,75,.10);
+  border-left:2px solid var(--gold);
+  padding:4px 10px;
+  font-style:italic;
+  color:var(--gold-deep);
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://www.lapuissancedeleveil.com/#eva",
+  "name": "Eva Naudet",
+  "alternateName": "La Puissance de l'Éveil",
+  "jobTitle": "Coach holistique",
+  "url": "https://www.lapuissancedeleveil.com/",
+  "sameAs": [
+    "https://www.instagram.com/naudet.eva",
+    "https://open.spotify.com/show/4IV0enDstewtB63icJrPPo",
+    "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html"
+  ],
+  "subjectOf": [
+    {
+      "@type": "NewsArticle",
+      "headline": "Atteinte de sclérose en plaques, Eva est devenue influenceuse pour partager son combat",
+      "url": "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France Info", "url": "https://www.franceinfo.fr/" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — Brut",
+      "url": "https://www.facebook.com/share/v/1HuQZQseKK/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "Brut", "url": "https://www.brut.media/fr" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — France 3 Côte d'Azur",
+      "url": "https://www.facebook.com/share/v/1HGqe5gzAP/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France 3 Côte d'Azur", "url": "https://france3-regions.francetvinfo.fr/provence-alpes-cote-d-azur/" }
+    }
+  ]
+}
+</script>

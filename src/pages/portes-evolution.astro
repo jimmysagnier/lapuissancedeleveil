@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import head from '../snippets/portes-evolution.head.html?raw';
+import body from '../snippets/portes-evolution.body.html?raw';
+const title = "Les Portes de l'Évolution — La Puissance de l'Éveil · Eva Naudet";
+const description = "Un programme en 5 portes pour sortir du mode survie et revenir à toi. 5 vidéos immersives, 5 Carnets de l'Éveil, exercices et introspections guidées. 197 €.";
+---
+<Base title={title} description={description}>
+<Fragment slot="head" set:html={head} />
+<Fragment set:html={body} />
+</Base>

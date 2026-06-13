@@ -1,0 +1,1103 @@
+<style>
+  :root{
+    --ink:#0E1B2C;
+    --ink-soft:#1B2A3F;
+    --ivory:#F3ECDF;
+    --ivory-2:#EDE3D1;
+    --gold:#C8914B;
+    --gold-deep:#9C6A2E;
+    --moon:#E9D9B6;
+    --terra:#C2543A;
+    --line:rgba(14,27,44,.14);
+    --line-soft:rgba(14,27,44,.08);
+    --serif:"Fraunces", "Times New Roman", serif;
+    --serif-it:"Instrument Serif", serif;
+    --sans:"Instrument Sans", system-ui, sans-serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--ink);color:var(--ivory);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{overflow-x:hidden}
+  img,video{display:block;max-width:100%}
+  ::selection{background:var(--gold);color:var(--ink)}
+  /* -------- grain overlay (cohérence projet) -------- */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.07;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  /* -------- nav (nav unifiée) -------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;color:var(--ivory);transition:background .4s,color .4s,border-color .4s;
+  }
+  .nav.scrolled{background:rgba(243,236,223,.92);backdrop-filter:blur(14px);color:var(--ink);border-bottom:1px solid var(--line)}
+  .nav a{color:inherit;text-decoration:none}
+  .mark{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;letter-spacing:.01em}
+  .mark img{width:44px;height:44px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .4s}
+  .nav.scrolled .mark img{filter:none}
+  .nav ul{display:flex;gap:34px;list-style:none;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+  .nav ul a{opacity:.85;transition:opacity .3s}
+  .nav ul a:hover{opacity:1}
+  .nav ul a.is-current{opacity:1;color:var(--gold)}
+  .nav.scrolled ul a.is-current{color:var(--gold-deep)}
+  .nav .cta{border:1px solid currentColor;padding:10px 18px;border-radius:999px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;transition:background .3s,color .3s}
+  .nav .cta:hover{background:currentColor}
+  .nav .cta:hover{color:var(--ink)}
+  .nav.scrolled .cta:hover{color:var(--ivory)}
+  @media(max-width:860px){.nav ul{display:none}.nav{padding:18px 22px}}
+  /* =====================================================
+     HERO — PORTRAIT PLEIN CADRE + PLAQUE
+     Photo Eva en object-fit:cover, voile ink uniquement bas-centré
+     pour ancrer la plaque sans étouffer la lumière chaude du jardin.
+     ===================================================== */
+  .hero{
+    position:relative;
+    width:100%;
+    height:100vh;
+    min-height:680px;
+    max-height:1100px;
+    overflow:hidden;
+    background:#000;
+    isolation:isolate;
+  }
+  /* Photo : Ken Burns lent (zoom infini imperceptible) */
+  .hero-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 30%;
+    z-index:1;
+    will-change:transform;
+    animation:slow-breath 22s var(--ease) infinite alternate;
+    filter:saturate(1.02) contrast(1.02);
+  }
+  @keyframes slow-breath{
+    0%   { transform:scale(1.00) translate3d(0,0,0); }
+    100% { transform:scale(1.06) translate3d(.6%,-.4%,0); }
+  }
+  /* Voile bas seulement — ancre la plaque, laisse le visage et la lumière */
+  .hero-veil{
+    position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:
+      radial-gradient(72% 56% at 50% 110%, rgba(14,27,44,.78) 0%, rgba(14,27,44,.55) 24%, rgba(14,27,44,.18) 52%, rgba(14,27,44,0) 78%);
+  }
+  /* Voile ink uniforme — refroidit la lumière chaude du jardin et harmonise avec la DA bleu nuit.
+     Léger reinforcement haut + bas pour donner de la profondeur atmosphérique. */
+  .hero-tint{
+    position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(14,27,44,.46) 0%, rgba(14,27,44,.30) 22%, rgba(14,27,44,.28) 60%, rgba(14,27,44,.36) 100%);
+  }
+  /* Légère teinte bleu profond en mode multiply pour caler la palette
+     sur l'ink du site sans assombrir excessivement les ombres. */
+  .hero-tint-blend{
+    position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:rgba(14,27,44,.22);
+    mix-blend-mode:multiply;
+  }
+  /* Cadre éditorial cinéma — filets quasi invisibles */
+  .hero-frame{
+    position:absolute;
+    inset:clamp(20px, 2.6vw, 36px);
+    z-index:6;
+    pointer-events:none;
+    border:1px solid rgba(243,236,223,.10);
+  }
+  .hero-frame::before, .hero-frame::after{
+    content:"";
+    position:absolute;
+    background:rgba(243,236,223,.20);
+  }
+  .hero-frame::before{
+    top:-1px;left:18%;width:9%;height:1px;
+  }
+  .hero-frame::after{
+    bottom:-1px;right:14%;width:11%;height:1px;
+  }
+  /* ---------- Bloc identité haut gauche (Eva Naudet — Coach holistique) ---------- */
+  .hero-id-top{
+    position:absolute;
+    top:clamp(96px, 10vw, 132px);
+    left:clamp(34px, 5vw, 80px);
+    right:clamp(34px, 5vw, 80px);
+    z-index:7;
+    color:var(--ivory);
+    opacity:0;
+    transform:translateY(8px);
+    animation:rise .9s var(--ease) .15s forwards;
+  }
+  .hero-id-top-h{
+    font-family:var(--serif);font-style:italic;font-weight:300;
+    font-size:clamp(20px,2.2vw,30px);line-height:1.1;color:var(--moon);
+    letter-spacing:-.005em;margin:0;
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+    display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .hero-id-top-h .hl-sep{
+    display:inline-block;width:32px;height:1px;background:var(--gold);opacity:.7;
+  }
+  .hero-id-top .role{
+    display:block;
+    margin-top:10px;
+    font-family:var(--serif-it);font-style:italic;font-weight:400;
+    font-size:clamp(15px,1.4vw,20px);line-height:1.4;color:var(--gold);opacity:.95;
+  }
+  .hero-id-top .role .sep{
+    display:inline-block;margin:0 10px;color:var(--gold);opacity:.55;font-size:.7em;transform:translateY(-2px);
+  }
+  @keyframes dot-pulse{
+    0%,100%{ opacity:.7; transform:scale(1); }
+    50%   { opacity:1; transform:scale(1.2); }
+  }
+  /* ---------- Plaque centrée bas ---------- */
+  .hero-stage{
+    position:absolute;
+    left:50%;
+    bottom:clamp(72px, 10vw, 140px);
+    z-index:7;
+    width:min(960px, 90vw);
+    color:var(--ivory);
+    text-align:center;
+    transform:translate3d(-50%, 0, 0);
+    will-change:transform;
+  }
+  /* Filet doré dégradé — tient lieu d'eyebrow (pas de texte, brief Eva) */
+  .hero-rule{
+    width:clamp(72px, 7vw, 108px);
+    height:1px;
+    margin:0 auto clamp(28px, 3vw, 42px);
+    background:linear-gradient(90deg, rgba(200,145,75,0) 0%, var(--gold) 50%, rgba(200,145,75,0) 100%);
+    opacity:0;
+    animation:rise 1.1s var(--ease) .45s forwards;
+  }
+  /* H1 — plaque commémorative, "QUI SUIS-JE ?" uppercase
+     Combinaison plus architecturale qu'éditoriale (titre court, lettres à fort impact) :
+     weight 400 / opsz 96 / SOFT 0 / WONK 0 — courbes plus nettes, moins de "pillowy". */
+  .hero-title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(44px, 6.4vw, 104px);
+    line-height:1.02;
+    letter-spacing:-.012em;
+    text-transform:uppercase;
+    color:var(--ivory);
+    font-variation-settings:"opsz" 96,"SOFT" 0,"WONK" 0;
+    text-align:center;
+    text-shadow:0 1px 24px rgba(0,0,0,.32);
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:baseline;
+    gap:.06em;
+    flex-wrap:wrap;
+  }
+  .hero-title-inner{
+    display:inline-block;
+    transform:translateY(110%);
+    opacity:0;
+    animation:reveal 1.2s var(--ease) .55s forwards;
+    white-space:normal;
+  }
+  /* "?" en Fraunces italic même famille que le titre, sans WONK pour rester sobre.
+     SOFT modeste pour donner juste un accent éditorial discret. */
+  .hero-title .mark{
+    display:inline-block;
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-variation-settings:"opsz" 96,"SOFT" 0,"WONK" 0;
+    text-transform:none;
+    letter-spacing:0;
+    color:var(--moon);
+    padding:0 .04em;
+    font-size:1em;
+    line-height:1;
+    transform:translateY(110%);
+    opacity:0;
+    animation:reveal 1.2s var(--ease) .85s forwards;
+  }
+  /* ---------- Indicateur de scroll bas droite ---------- */
+  .hero-scroll{
+    position:absolute;
+    bottom:clamp(34px, 4vw, 60px);
+    right:clamp(40px, 5vw, 96px);
+    z-index:7;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    opacity:0;
+    animation:rise 1s var(--ease) 1.5s forwards;
+  }
+  .hero-scroll-label{
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:13px;
+    color:var(--moon);
+    letter-spacing:.02em;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    opacity:.85;
+  }
+  .hero-scroll-line{
+    position:relative;
+    width:1px;
+    height:84px;
+    background:rgba(243,236,223,.18);
+    overflow:hidden;
+  }
+  .hero-scroll-line::after{
+    content:"";
+    position:absolute;
+    top:-30%;
+    left:0;
+    width:1px;
+    height:30%;
+    background:linear-gradient(180deg, rgba(200,145,75,0) 0%, var(--gold) 50%, rgba(200,145,75,0) 100%);
+    animation:trickle 2.4s var(--ease) infinite;
+  }
+  @keyframes trickle{
+    0%   { top:-30%; }
+    100% { top:130%; }
+  }
+  /* ---------- Animations partagées ---------- */
+  @keyframes rise{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes reveal{
+    to{ transform:translateY(0); opacity:1; }
+  }
+  /* ---------- Responsive ---------- */
+  @media (max-width:760px){
+    .hero-photo{ object-position:50% 22%; }
+    .hero-veil{
+      background:
+        radial-gradient(110% 64% at 50% 112%, rgba(14,27,44,.84) 0%, rgba(14,27,44,.62) 28%, rgba(14,27,44,.22) 58%, rgba(14,27,44,0) 84%);
+    }
+    .hero-id-top{ top:clamp(82px, 14vw, 110px); left:22px; right:22px; }
+    .hero-stage{ bottom:clamp(80px, 14vw, 120px); width:92vw; }
+    .hero-rule{ margin-bottom:22px; width:64px; }
+    .hero-scroll{ display:none; }
+    .hero-frame{ inset:14px; }
+  }
+  @media (max-width:480px){
+    .hero-id-top{ top:84px; left:24px; right:24px; }
+    .hero-id-top-h{ font-size:clamp(20px, 5.6vw, 26px); gap:12px; }
+    .hero-id-top-h .hl-sep{ width:24px; }
+    .hero-id-top .role{ font-size:clamp(15px, 4.2vw, 18px); margin-top:8px; line-height:1.45; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-photo{ animation:none; transform:none; }
+    .hero-id-top,.hero-rule,.hero-scroll,
+    .hero-title-inner,.hero-title .mark{
+      animation:none !important; opacity:1 !important; transform:none !important;
+    }
+    .hero-scroll-line::after{ animation:none; }
+  }
+  /* =====================================================
+     SECTION 02 — PRÉSENTATION (vidéo gauche + texte droite)
+     Fond ivoire, alternance après le Hero ink. Diptyque calme,
+     vidéo portrait dans un cadre net + plaque manuscrite gold.
+     ===================================================== */
+  .presentation{
+    position:relative;
+    background:var(--ivory);
+    color:var(--ink);
+    padding:clamp(96px, 12vw, 160px) clamp(28px, 5vw, 80px);
+    isolation:isolate;
+  }
+  /* Espacement section 02 après suppression du folio */
+  .presentation-grid{ margin-top:0; }
+  /* Grille 1:1 — vidéo gauche, texte droite, alignée centrée */
+  .presentation-grid{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+    gap:clamp(48px, 6vw, 96px);
+    max-width:1280px;
+    margin:0 auto;
+    align-items:center;
+  }
+  /* ----- Colonne vidéo ----- */
+  .presentation-video{
+    position:relative;
+    width:100%;
+    aspect-ratio:9/16;
+    max-width:480px;
+    justify-self:end;
+    background:var(--ink);
+    overflow:hidden;
+    box-shadow:
+      0 36px 70px -30px rgba(14,27,44,.42),
+      0 14px 30px -10px rgba(14,27,44,.22);
+  }
+  .presentation-video video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    will-change:transform;
+  }
+  .presentation-video-frame{
+    position:absolute;
+    inset:14px;
+    border:1px solid rgba(243,236,223,.20);
+    pointer-events:none;
+    z-index:1;
+  }
+  /* Étiquette manuscrite gold (rappel manifesto homepage) */
+  .presentation-video-tag{
+    position:absolute;
+    top:22px;
+    left:-14px;
+    z-index:2;
+    background:var(--gold);
+    color:var(--ink);
+    padding:7px 16px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:14px;
+    letter-spacing:.01em;
+    transform:rotate(-2.5deg);
+    box-shadow:0 8px 18px -6px rgba(14,27,44,.32);
+  }
+  /* ----- Colonne texte ----- */
+  .presentation-text{ max-width:560px; }
+  .presentation-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(38px, 5.2vw, 80px);
+    line-height:1.04;
+    letter-spacing:-.018em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    margin-bottom:clamp(36px, 4.4vw, 56px);
+    max-width:18ch;
+  }
+  .presentation-title em{
+    font-style:italic;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+    font-weight:400;
+  }
+  /* Body — 3 paragraphes, P2 en pull-quote pour hiérarchiser */
+  .presentation-body{
+    font-size:clamp(15.5px, 1.18vw, 18.5px);
+    line-height:1.7;
+    color:var(--ink-soft);
+    max-width:54ch;
+  }
+  .presentation-body p + p{ margin-top:clamp(22px, 2.2vw, 30px); }
+  .presentation-body .pull{
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(20px, 1.85vw, 26px);
+    line-height:1.45;
+    color:var(--ink);
+    padding-left:clamp(18px, 1.6vw, 24px);
+    border-left:2px solid var(--gold);
+    margin-top:clamp(28px, 3vw, 38px) !important;
+    margin-bottom:clamp(28px, 3vw, 38px);
+    max-width:46ch;
+  }
+  /* Responsive */
+  @media (max-width:900px){
+    .presentation{ padding:clamp(80px, 14vw, 110px) clamp(22px, 5vw, 40px); }
+    .presentation-grid{ grid-template-columns:1fr; gap:clamp(44px, 8vw, 64px); }
+    .presentation-video{ justify-self:center; max-width:360px; }
+    .presentation-text{ max-width:none; }
+    .presentation-title{ max-width:none; }
+  }
+  @media (max-width:480px){
+    .presentation{ padding:clamp(64px, 16vw, 88px) 22px; }
+    .presentation-video{ max-width:300px; }
+    .presentation-video-tag{ font-size:12.5px; padding:6px 13px; left:-10px; top:16px; }
+  }
+  @media (prefers-reduced-motion:reduce){}
+  /* =====================================================
+     SECTION 03 — PAPERBOARD (4 chapitres flip-up)
+     Système : 4 pages empilées en absolute dans un stage sticky.
+     z-index descendant (I sur dessus). Au scroll, JS applique
+     translateY(-100%) à chaque page successivement, révélant
+     la suivante en dessous. Sensation de tourner la page d'un
+     paperboard / flipchart.
+     ===================================================== */
+  .paperboard{
+    position:relative;
+    /* hauteur totale = (N + 1) × 100vh pour le scroll-through.
+       N=4 pages, le stage est sticky 100vh, donc 4 × 100vh + 100vh slack */
+    height:500vh;
+    background:var(--ink);
+  }
+  .paperboard-stage{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+    background:var(--ink);
+    isolation:isolate;
+  }
+  /* Chaque "page" du paperboard */
+  .paper{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:stretch;
+    overflow:hidden;
+    will-change:transform;
+    /* l'ombre du bord supérieur quand la page se lève — appliquée par JS */
+    transform:translate3d(0,0,0);
+  }
+  /* z-index : page I sur dessus, page IV en dessous */
+  .paper[data-idx="0"]{ z-index:4; }
+  .paper[data-idx="1"]{ z-index:3; }
+  .paper[data-idx="2"]{ z-index:2; }
+  .paper[data-idx="3"]{ z-index:1; }
+  /* ---- Atmosphère par chapitre : descente ink → remontée ivoire → finale or ---- */
+  .paper--I{ background:var(--ink); color:var(--ivory); }
+  .paper--II{ background:var(--ink-deep, #0A1422); color:var(--ivory); }
+  .paper--III{ background:var(--ivory); color:var(--ink); }
+  /* IV — Renaissance : or massif, comme la carte-inner du tarot homepage.
+     Lumière chaude radiale en haut-gauche + dégradé linéaire descendant. */
+  .paper--IV{
+    background:
+      radial-gradient(120% 80% at 28% 0%, rgba(255,232,184,.55) 0%, rgba(255,232,184,0) 55%),
+      linear-gradient(160deg, #D9A968 0%, #C8914B 50%, #A8763A 100%);
+    color:var(--ink);
+  }
+  /* Texture grain interne discrète sur le fond or pour éviter l'effet plat */
+  .paper--IV::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    opacity:.10;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.85 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  /* ---- Alternance des côtés (photo / contenu) ----
+     I : photo gauche / contenu droite
+     II : photo droite / contenu gauche
+     III : photo gauche / contenu droite
+     IV : photo droite / contenu gauche */
+  .paper--II .paper-visual,
+  .paper--IV .paper-visual{ order:2; }
+  .paper--II .paper-content,
+  .paper--IV .paper-content{ order:1; }
+  /* ---- Visual / image ---- */
+  .paper-visual{
+    position:relative;
+    overflow:hidden;
+    background:transparent;
+  }
+  .paper-visual img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:50% 50%;
+    display:block;
+    transition:transform 6s var(--ease);
+  }
+  .paper:hover .paper-visual img{ transform:scale(1.02); }
+  /* Image complète (tête + buste non rognés), calée vers le bord extérieur de chaque chapitre.
+     Photo à gauche du layout (I, III) → image collée à gauche ;
+     photo à droite (II, IV) → image collée à droite. */
+  .paper--I  .paper-visual img{ object-position:0% 50%; }
+  .paper--II .paper-visual img{ object-position:100% 50%; }
+  .paper--III .paper-visual{ background:var(--ivory); }
+  .paper--III .paper-visual img{ object-position:0% 50%; }
+  .paper--IV .paper-visual{ background:transparent; }
+  .paper--IV .paper-visual img{ object-position:100% 50%; }
+  /* Voile latéral désactivé en mode contain : la zone vide laisse passer le fond
+     du .paper, donc pas de seam à atténuer entre image et contenu. */
+  /* ---- Contenu ---- */
+  .paper-content{
+    position:relative;
+    padding:clamp(40px, 7vw, 110px) clamp(28px, 6vw, 90px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+  }
+  /* Chiffre romain en filigrane */
+  .paper-roman{
+    position:absolute;
+    top:-20px;
+    right:clamp(20px, 4vw, 50px);
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:clamp(140px, 22vw, 320px);
+    line-height:.8;
+    letter-spacing:-.03em;
+    color:var(--gold);
+    opacity:.12;
+    pointer-events:none;
+    user-select:none;
+    z-index:0;
+  }
+  .paper--II .paper-roman{ right:auto; left:clamp(20px, 4vw, 50px); }
+  .paper--III .paper-roman{ color:var(--gold-deep); opacity:.15; }
+  /* IV : romain en ink semi-transparent sur le fond or, plus dense */
+  .paper--IV .paper-roman{ color:var(--ink); opacity:.10; right:auto; left:clamp(20px, 4vw, 50px); }
+  .paper-title{
+    position:relative;
+    z-index:1;
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(48px, 7vw, 120px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:clamp(28px, 3.5vw, 44px);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    max-width:14ch;
+  }
+  .paper-title i{
+    font-style:italic;
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+    color:var(--gold);
+  }
+  .paper--III .paper-title i{ color:var(--gold-deep); }
+  /* IV : titre en ink, italique en ivoire pour faire briller le passage finale */
+  .paper--IV .paper-title{ color:var(--ink); }
+  .paper--IV .paper-title i{ color:var(--ivory); text-shadow:0 1px 18px rgba(255,240,210,.3); }
+  .paper-body{
+    position:relative;
+    z-index:1;
+    font-size:clamp(15px, 1.18vw, 18.5px);
+    line-height:1.7;
+    max-width:54ch;
+  }
+  .paper--I .paper-body,
+  .paper--II .paper-body{ color:rgba(243,236,223,.84); }
+  .paper--III .paper-body{ color:var(--ink-soft); }
+  /* IV : body en ink légèrement adouci pour rester lisible sur or sans agresser */
+  .paper--IV .paper-body{ color:rgba(14,27,44,.86); }
+  .paper-body p + p{ margin-top:clamp(16px, 1.5vw, 22px); }
+  /* ---- Indicateur de progression (dots latéraux) ---- */
+  .paperboard-progress{
+    position:absolute;
+    top:50%;
+    right:clamp(18px, 2.4vw, 36px);
+    transform:translateY(-50%);
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    pointer-events:none;
+  }
+  .paperboard-progress span{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(243,236,223,.22);
+    transition:background .45s var(--ease), transform .45s var(--ease);
+  }
+  .paperboard-progress span.is-on{
+    background:var(--gold);
+    transform:scale(1.4);
+  }
+  /* Quand le paperboard est en mode ivoire (page III) le dot inactif doit rester visible */
+  .paperboard.ivory-phase .paperboard-progress span:not(.is-on){
+    background:rgba(14,27,44,.22);
+  }
+  /* Phase or (page IV) : le dot actif gold se confond avec le fond, on bascule en ink */
+  .paperboard.gold-phase .paperboard-progress span{ background:rgba(14,27,44,.30); }
+  .paperboard.gold-phase .paperboard-progress span.is-on{
+    background:var(--ink);
+    transform:scale(1.4);
+  }
+  /* ---- Responsive : sur mobile, on tue le sticky/flip et on stack normalement ---- */
+  @media (max-width:900px){
+    .paperboard{
+      height:auto;
+    }
+    .paperboard-stage{
+      position:relative;
+      height:auto;
+      overflow:visible;
+    }
+    .paper{
+      position:relative;
+      inset:auto;
+      height:auto;
+      min-height:auto;
+      grid-template-columns:1fr;
+      grid-template-rows:50vh auto;
+      transform:none !important;
+      box-shadow:none !important;
+    }
+    .paper--II .paper-visual,
+    .paper--IV .paper-visual{ order:0; }
+    .paper--II .paper-content,
+    .paper--IV .paper-content{ order:1; }
+    .paper-content{
+      padding:clamp(40px, 8vw, 64px) clamp(24px, 6vw, 40px) clamp(56px, 10vw, 80px);
+    }
+    .paper-title{ font-size:clamp(40px, 10vw, 60px); }
+    .paper-roman{ font-size:clamp(120px, 38vw, 200px); top:-10px; }
+    .paperboard-progress{ display:none; }
+    /* Sur mobile la colonne photo passe en paysage (100% × 42vh) alors que les
+       images sont portrait. On repasse en cover + object-position en haut pour
+       préserver visages et sujets clés à l'image. */
+    .paper-visual img{ object-fit:cover; }
+    .paper--I   .paper-visual img{ object-position:50% 12%; }   /* petite fille face/torse en haut */
+    .paper--II  .paper-visual img{ object-position:50% 35%; }   /* enfant + chaise plage */
+    .paper--III .paper-visual img{ object-position:50% 50%; }   /* visage Eva */
+    .paper--IV  .paper-visual img{ object-position:50% 8%; }    /* Eva bras levés : un peu de respiration au-dessus des mains */
+  }
+  @media (prefers-reduced-motion:reduce){
+    .paperboard{ height:auto; }
+    .paperboard-stage{ position:relative; height:auto; overflow:visible; }
+    .paper{ position:relative; inset:auto; height:auto; transform:none !important; }
+  }
+  /* =====================================================
+     SECTION 04 — POSITION (manifeste centré cascadé)
+     Sortie du finale or de Renaissance via couture de lumière
+     en bord supérieur. Cascade refus/assertion sur fond ink.
+     "Et ça va piquer." isolé, filtre doux/vrai en clôture.
+     ===================================================== */
+  .position-section{
+    position:relative;
+    background:var(--ink);
+    color:var(--ivory);
+    padding:clamp(120px, 18vh, 220px) 24px clamp(140px, 20vh, 240px);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  /* Couture de lumière qui sort du finale or de Renaissance — bord supérieur */
+  .position-section::before{
+    content:"";
+    position:absolute; inset:0 0 auto 0; height:1px;
+    background:linear-gradient(90deg,
+      transparent 0%,
+      rgba(200,145,75,0) 8%,
+      rgba(200,145,75,.55) 30%,
+      rgba(233,217,182,.85) 50%,
+      rgba(200,145,75,.55) 70%,
+      rgba(200,145,75,0) 92%,
+      transparent 100%);
+    z-index:2;
+  }
+  /* Halo solaire descendant juste sous la couture — l'or qui se dissout dans la nuit */
+  .position-section::after{
+    content:"";
+    position:absolute; left:50%; top:-2px; transform:translateX(-50%);
+    width:min(900px, 92vw); height:340px;
+    background:radial-gradient(60% 100% at 50% 0%,
+      rgba(200,145,75,.22) 0%,
+      rgba(200,145,75,.08) 35%,
+      rgba(14,27,44,0) 75%);
+    pointer-events:none; z-index:1;
+  }
+  /* Grain léger spécifique (overlay au lieu de multiply pour rester sur ink) */
+  .position-grain{
+    position:absolute; inset:0; pointer-events:none; z-index:1;
+    opacity:.08; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.86  0 0 0 0 0.7  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .position-shell{
+    position:relative; z-index:3;
+    max-width:780px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .position-h2{
+    font-family:var(--serif);
+    font-variation-settings:"opsz" 96, "SOFT" 40, "WONK" 0;
+    font-weight:340;
+    font-size:clamp(34px, 5.4vw, 64px);
+    line-height:1.05;
+    letter-spacing:-.012em;
+    color:var(--ivory);
+    margin:0 auto;
+    max-width:18ch;
+  }
+  .position-h2 em{
+    font-style:italic;
+    font-variation-settings:"opsz" 96, "SOFT" 80, "WONK" 1;
+    color:var(--gold);
+    font-weight:380;
+  }
+  .position-h2-rule{
+    display:block; width:64px; height:1px; margin:34px auto 0;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  }
+  /* Cascade des paires */
+  .position-cascade{
+    margin-top:clamp(72px, 12vh, 120px);
+    display:flex; flex-direction:column; align-items:center;
+    gap:0;
+  }
+  .position-pair{
+    display:flex; flex-direction:column; align-items:center;
+    gap:18px;
+    padding:clamp(28px, 5vh, 56px) 0;
+    width:100%;
+  }
+  /* Asymétrie subtile : décalages par paire pour casser la rigidité de l'axe */
+  .position-pair[data-shift="left"]{ transform:translateX(-22px); }
+  .position-pair[data-shift="right"]{ transform:translateX(22px); }
+  .position-refusal{
+    font-family:var(--serif);
+    font-style:italic;
+    font-variation-settings:"opsz" 72, "SOFT" 100, "WONK" 0;
+    font-weight:340;
+    font-size:clamp(20px, 2.6vw, 30px);
+    line-height:1.35;
+    color:var(--ivory);
+    opacity:.55;
+    max-width:22ch;
+    margin:0;
+    letter-spacing:.005em;
+  }
+  .position-assertion{
+    font-family:var(--serif);
+    font-variation-settings:"opsz" 144, "SOFT" 30, "WONK" 0;
+    font-weight:360;
+    font-size:clamp(34px, 5.6vw, 64px);
+    line-height:1.06;
+    letter-spacing:-.012em;
+    color:var(--ivory);
+    max-width:18ch;
+    margin:0;
+  }
+  .position-assertion .strike{
+    font-style:italic;
+    font-variation-settings:"opsz" 144, "SOFT" 60, "WONK" 1;
+    color:var(--gold);
+    font-weight:400;
+    /* léger soulignement d'or pour la frappe */
+    background-image:linear-gradient(transparent 78%, rgba(200,145,75,.22) 78%, rgba(200,145,75,.22) 92%, transparent 92%);
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    padding:0 .04em;
+  }
+  /* Séparateur entre paires : filet vertical + glyphe */
+  .position-step{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    margin:6px 0;
+    color:var(--gold);
+    --step-h: clamp(80px, 12vh, 120px);
+  }
+  .position-step .line{
+    width:1px; height:var(--step-h);
+    background:linear-gradient(to bottom,
+      transparent 0%,
+      rgba(200,145,75,0) 4%,
+      rgba(200,145,75,.55) 35%,
+      rgba(200,145,75,.85) 70%,
+      rgba(200,145,75,0) 100%);
+    transform-origin:top center;
+  }
+  .position-step .glyph{
+    font-family:var(--serif);
+    font-size:13px;
+    font-weight:400;
+    line-height:1;
+    color:var(--gold);
+    letter-spacing:0;
+  }
+  /* Sting isolé "Et ça va piquer." */
+  .position-sting-wrap{
+    margin:clamp(40px, 8vh, 90px) 0 clamp(60px, 10vh, 110px);
+    display:flex; justify-content:center;
+    width:100%;
+  }
+  .position-sting{
+    font-family:var(--serif);
+    font-style:italic;
+    font-variation-settings:"opsz" 144, "SOFT" 0, "WONK" 1;
+    font-weight:380;
+    font-size:clamp(40px, 6.4vw, 96px);
+    line-height:1;
+    color:var(--ivory);
+    margin:0;
+    letter-spacing:-.02em;
+    text-align:center;
+    position:relative;
+  }
+  .position-sting .dot{
+    color:var(--terra);
+    font-style:normal;
+    font-variation-settings:"opsz" 144, "SOFT" 0, "WONK" 0;
+  }
+  /* Filtre final */
+  .position-filter{
+    margin-top:clamp(20px, 4vh, 40px);
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+    border-top:1px solid rgba(233,217,182,.18);
+    padding-top:clamp(40px, 7vh, 70px);
+  }
+  .position-filter-label{
+    font-family:var(--sans);
+    font-size:11px; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--moon); opacity:.55;
+    margin-bottom:6px;
+  }
+  .position-filter-line{
+    font-family:var(--serif);
+    font-size:clamp(20px, 2.6vw, 30px);
+    line-height:1.35;
+    font-weight:380;
+    display:flex; align-items:baseline; gap:14px;
+    flex-wrap:wrap; justify-content:center;
+    margin:0;
+  }
+  .position-filter-line .arrow{
+    font-family:var(--sans); font-weight:400;
+    opacity:.6;
+  }
+  .position-filter-line.is-out{
+    color:var(--moon); opacity:.55;
+    font-style:italic;
+    font-variation-settings:"opsz" 96, "SOFT" 100, "WONK" 0;
+  }
+  .position-filter-line.is-in{
+    color:var(--gold);
+    font-variation-settings:"opsz" 96, "SOFT" 30, "WONK" 1;
+    font-style:italic;
+    font-weight:420;
+  }
+  .position-filter-line.is-in .verb{
+    color:var(--ivory);
+    font-style:normal;
+    font-variation-settings:"opsz" 96, "SOFT" 30, "WONK" 0;
+    font-weight:380;
+  }
+  /* Animations d'apparition (IntersectionObserver) */
+  .position-section .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+    will-change:opacity, transform;
+  }
+  .position-section .reveal.is-in{ opacity:1; transform:none; }
+  .position-section .reveal-line .line{
+    transform:scaleY(0);
+    transition:transform .9s var(--ease);
+  }
+  .position-section .reveal-line.is-in .line{ transform:scaleY(1); }
+  .position-section .reveal-line .glyph{
+    opacity:0; transition:opacity .6s ease .5s;
+  }
+  .position-section .reveal-line.is-in .glyph{ opacity:1; }
+  /* Stagger refus/assertion */
+  .position-pair .position-refusal{ transition-delay:.05s; }
+  .position-pair .position-assertion{ transition-delay:.25s; }
+  /* Responsive */
+  @media (max-width:900px){
+    .position-section{ padding:96px 22px 110px; }
+    .position-h2{ font-size:clamp(30px, 6vw, 44px); }
+    .position-pair[data-shift="left"]{ transform:translateX(-10px); }
+    .position-pair[data-shift="right"]{ transform:translateX(10px); }
+  }
+  @media (max-width:560px){
+    .position-section{ padding:80px 18px 96px; }
+    .position-shell{ max-width:none; }
+    .position-h2{ font-size:clamp(26px, 8vw, 36px); max-width:14ch; }
+    .position-refusal{ font-size:clamp(18px, 5vw, 22px); max-width:24ch; }
+    .position-assertion{ font-size:clamp(28px, 8.4vw, 38px); max-width:14ch; }
+    .position-step{ --step-h: 70px; }
+    .position-sting{ font-size:clamp(34px, 11vw, 56px); }
+    .position-pair[data-shift="left"],
+    .position-pair[data-shift="right"]{ transform:none; }
+    .position-filter-line{ gap:8px; font-size:clamp(18px, 5vw, 22px); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .position-section .reveal,
+    .position-section .reveal-line .line,
+    .position-section .reveal-line .glyph{
+      opacity:1 !important; transform:none !important; transition:none !important;
+    }
+  }
+  /* =====================================================
+     SECTION 05 — CTA FINAL (or massif)
+     Clôture en or — écho au finale Renaissance du paperboard.
+     Deux CTA : appel découverte (primaire ink) / accompagnement (secondaire ghost).
+     ===================================================== */
+  .cta-final{
+    position:relative;
+    padding:clamp(120px, 16vh, 200px) clamp(24px, 5vw, 60px);
+    background:var(--ivory);
+    color:var(--ink);
+    overflow:hidden;
+    isolation:isolate;
+    text-align:center;
+  }
+  /* Lueur dorée diffuse haut-centre — comme un projecteur 35mm sur l'ivoire */
+  .cta-final::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(70% 50% at 50% 0%, rgba(200,145,75,.10), transparent 70%),
+      radial-gradient(60% 40% at 50% 110%, rgba(14,27,44,.05), transparent 75%);
+  }
+  .cta-final-shell{
+    position:relative; z-index:1;
+    max-width:720px;
+    margin:0 auto;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .cta-final-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(44px, 6.4vw, 96px);
+    line-height:1;
+    letter-spacing:-.022em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    margin:0;
+    max-width:14ch;
+  }
+  /* Italique en gold-deep sur ivoire (cohérence feedback DA Eva) */
+  .cta-final-title em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+  }
+  .cta-final-sub{
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:clamp(18px, 1.8vw, 24px);
+    line-height:1.45;
+    color:var(--ink-soft);
+    margin:clamp(28px, 3.5vw, 42px) auto 0;
+    max-width:42ch;
+  }
+  .cta-final-rule{
+    display:block;
+    width:64px; height:1px;
+    margin:clamp(40px, 5vw, 60px) auto;
+    background:linear-gradient(90deg, transparent, var(--gold-deep) 50%, transparent);
+    opacity:.7;
+  }
+  /* Boutons — duo primaire / secondaire */
+  .cta-final-actions{
+    display:flex;
+    gap:clamp(14px, 1.6vw, 22px);
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+  }
+  .cta-final-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    padding:clamp(16px, 1.8vw, 20px) clamp(24px, 2.8vw, 36px);
+    border-radius:999px;
+    font-family:var(--sans);
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    text-decoration:none;
+    line-height:1;
+    transition:transform .4s var(--ease), background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+    cursor:pointer;
+  }
+  .cta-final-btn .arrow{
+    width:18px; height:1px; background:currentColor; position:relative;
+    transition:width .4s var(--ease);
+  }
+  .cta-final-btn .arrow::after{
+    content:"";
+    position:absolute; right:0; top:50%;
+    width:8px; height:8px;
+    border-top:1px solid currentColor;
+    border-right:1px solid currentColor;
+    transform:translateY(-50%) rotate(45deg);
+  }
+  .cta-final-btn:hover .arrow{ width:28px; }
+  /* Primaire : ink solid, texte ivoire — au hover bascule en or massif avec texte ink */
+  .cta-final-btn--primary{
+    background:var(--ink);
+    color:var(--ivory);
+    box-shadow:0 14px 32px -14px rgba(14,27,44,.55);
+  }
+  .cta-final-btn--primary:hover{
+    transform:translateY(-2px);
+    background:var(--gold);
+    color:var(--ink);
+    box-shadow:0 22px 44px -18px rgba(200,145,75,.55);
+  }
+  /* Secondaire : ghost ink (transparent + bordure ink) */
+  .cta-final-btn--ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid rgba(14,27,44,.45);
+  }
+  .cta-final-btn--ghost:hover{
+    transform:translateY(-2px);
+    border-color:var(--ink);
+    background:rgba(14,27,44,.04);
+  }
+  /* Méta sous les boutons : durée gratuit / 30 min */
+  .cta-final-meta{
+    margin-top:clamp(28px, 3.5vw, 42px);
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--ink); opacity:.6;
+    display:flex; align-items:center; gap:12px;
+    justify-content:center;
+  }
+  .cta-final-meta .sep{ width:24px; height:1px; background:currentColor; opacity:.5; }
+  /* Reveal au scroll */
+  .cta-final .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+  }
+  .cta-final .reveal.is-in{ opacity:1; transform:none; }
+  /* Responsive */
+  @media (max-width:760px){
+    .cta-final{ padding:clamp(80px, 14vw, 120px) 22px; }
+    .cta-final-title{ font-size:clamp(36px, 9.5vw, 56px); max-width:none; }
+    .cta-final-actions{ flex-direction:column; align-items:stretch; width:100%; max-width:340px; }
+    .cta-final-btn{ justify-content:center; padding:18px 24px; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .cta-final .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .cta-final-btn{ transition:none; }
+    .cta-final-btn:hover{ transform:none; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://www.lapuissancedeleveil.com/#eva",
+  "name": "Eva Naudet",
+  "alternateName": "La Puissance de l'Éveil",
+  "jobTitle": "Coach holistique",
+  "url": "https://www.lapuissancedeleveil.com/",
+  "sameAs": [
+    "https://www.instagram.com/naudet.eva",
+    "https://open.spotify.com/show/4IV0enDstewtB63icJrPPo",
+    "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html"
+  ],
+  "subjectOf": [
+    {
+      "@type": "NewsArticle",
+      "headline": "Atteinte de sclérose en plaques, Eva est devenue influenceuse pour partager son combat",
+      "url": "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France Info", "url": "https://www.franceinfo.fr/" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — Brut",
+      "url": "https://www.facebook.com/share/v/1HuQZQseKK/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "Brut", "url": "https://www.brut.media/fr" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — France 3 Côte d'Azur",
+      "url": "https://www.facebook.com/share/v/1HGqe5gzAP/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France 3 Côte d'Azur", "url": "https://france3-regions.francetvinfo.fr/provence-alpes-cote-d-azur/" }
+    }
+  ]
+}
+</script>

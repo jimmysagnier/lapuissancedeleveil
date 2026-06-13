@@ -1,0 +1,1461 @@
+<!--
+  Mockup 2 — Cabinet de curiosités / planche d'apothicaire (v2 — itération 2026-05-11)
+  Direction : ivoire dominant, ebooks comme objets précieux étalés, HD en pièce maîtresse cartel musée, étiquettes manuscrites comme signature transversale
+  Sections : Hero / Ticker mantra / Ebooks-bibliothèque / Human Design-cartel / CTA final / Footer (pattern Mockup 1)
+  Itérations v2 :
+    - Section "Comment ça se passe" supprimée
+    - Ticker mantra déplacé entre Hero et Bibliothèque (au lieu d'entre clarte et CTA)
+    - Footer remplacé par le footer du Mockup 1 (foot-brand + foot-bottom + foot-legal)
+-->
+<style>
+  :root{
+    --ink:#0E1B2C;
+    --ink-soft:#1B2A3F;
+    --ink-deep:#0A1422;
+    --ivory:#F3ECDF;
+    --ivory-2:#EDE3D1;
+    --ivory-3:#E5D9C0;
+    --gold:#C8914B;
+    --gold-deep:#9C6A2E;
+    --moon:#E9D9B6;
+    --terra:#C2543A;
+    --line:rgba(14,27,44,.14);
+    --line-soft:rgba(14,27,44,.08);
+    --line-gold:rgba(156,106,46,.32);
+    --serif:"Fraunces", "Times New Roman", serif;
+    --serif-it:"Instrument Serif", serif;
+    --sans:"Instrument Sans", system-ui, sans-serif;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  body{overflow-x:hidden}
+  img,video{display:block;max-width:100%}
+  ::selection{background:var(--gold);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  /* -------- grain overlay -------- */
+  body::before{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:200;
+    opacity:.07;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  /* -------- nav -------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;color:var(--ink);
+    transition:background .4s,color .4s,border-color .4s;
+  }
+  .nav.scrolled{
+    background:rgba(243,236,223,.92);
+    backdrop-filter:blur(14px);
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .mark{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:19px;letter-spacing:.01em}
+  .mark img{width:44px;height:44px;object-fit:contain;transition:filter .4s}
+  .nav ul{display:flex;gap:34px;list-style:none;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+  .nav ul a{opacity:.85;transition:opacity .3s}
+  .nav ul a:hover{opacity:1}
+  .nav ul a.is-current{opacity:1;color:var(--gold-deep)}
+  .nav .cta{
+    border:1px solid currentColor;
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    transition:background .3s,color .3s;
+  }
+  .nav .cta:hover{background:currentColor;color:var(--ivory)}
+  @media(max-width:860px){.nav ul{display:none}.nav{padding:18px 22px}}
+  /* =====================================================
+     HERO — Planche photographique / cartel de musée
+     Ivoire dominant, photo Les clés posée légèrement
+     inclinée, étiquette manuscrite "des clés à toi",
+     filets dorés horizontaux + verticaux d'encadrement.
+     ===================================================== */
+  .hero{
+    position:relative;
+    background:var(--ivory);
+    color:var(--ink);
+    min-height:100vh;
+    padding:clamp(130px, 14vw, 180px) clamp(28px, 5vw, 80px) clamp(60px, 8vw, 100px);
+    isolation:isolate;
+    overflow:hidden;
+  }
+  /* Bordure de planche : filets dorés horizontal + vertical */
+  .hero-cartel{
+    position:absolute;
+    inset:clamp(90px, 9vw, 130px) clamp(40px, 5vw, 80px) clamp(40px, 5vw, 80px);
+    border:1px solid var(--line-gold);
+    pointer-events:none;
+    z-index:0;
+    opacity:0;
+    animation:cartel-in 1.6s var(--ease) .2s forwards;
+  }
+  /* coins type cartel de musée */
+  .hero-cartel::before,
+  .hero-cartel::after{
+    content:"";
+    position:absolute;
+    background:var(--gold-deep);
+  }
+  .hero-cartel::before{
+    top:-1px;left:14%;width:8%;height:1px;
+    box-shadow:
+      0 0 0 0 transparent;
+  }
+  .hero-cartel::after{
+    bottom:-1px;right:18%;width:10%;height:1px;
+  }
+  @keyframes cartel-in{
+    0%   { opacity:0; transform:scale(.985); }
+    100% { opacity:.9; transform:scale(1); }
+  }
+  /* angles dorés intérieurs supplémentaires */
+  .hero-cornerL,
+  .hero-cornerR{
+    position:absolute;
+    z-index:1;
+    width:clamp(40px, 4.4vw, 64px);
+    height:clamp(40px, 4.4vw, 64px);
+    pointer-events:none;
+  }
+  .hero-cornerL{
+    top:clamp(86px, 9vw, 126px);
+    left:clamp(36px, 5vw, 76px);
+    border-top:1px solid var(--gold-deep);
+    border-left:1px solid var(--gold-deep);
+  }
+  .hero-cornerR{
+    bottom:clamp(36px, 5vw, 76px);
+    right:clamp(36px, 5vw, 76px);
+    border-bottom:1px solid var(--gold-deep);
+    border-right:1px solid var(--gold-deep);
+  }
+  .hero-grid{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+    gap:clamp(40px, 6vw, 96px);
+    align-items:center;
+    max-width:1280px;
+    margin:0 auto;
+    padding:clamp(20px, 3vw, 44px) clamp(20px, 3vw, 50px);
+  }
+  /* Folio haut central */
+  .hero-folio{
+    position:absolute;
+    top:clamp(96px, 10vw, 142px);
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:var(--gold-deep);
+    font-family:var(--sans);
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    opacity:0;
+    animation:rise .9s var(--ease) .55s forwards;
+  }
+  .hero-folio .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--gold-deep);
+    box-shadow:0 0 0 4px rgba(156,106,46,.10);
+  }
+  .hero-folio .bar{
+    width:32px;height:1px;background:rgba(14,27,44,.22);
+  }
+  /* -------- Colonne texte (gauche) -------- */
+  .hero-text{
+    position:relative;
+    max-width:560px;
+  }
+  .hero-eyebrow{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:var(--gold-deep);
+    font-family:var(--sans);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    margin-bottom:clamp(26px, 3vw, 36px);
+    opacity:0;
+    transform:translateY(8px);
+    animation:rise .9s var(--ease) .35s forwards;
+  }
+  .hero-eyebrow .bar{
+    width:36px;height:1px;background:var(--gold-deep);
+  }
+  .hero-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(46px, 6.2vw, 96px);
+    line-height:1.02;
+    letter-spacing:-.02em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    margin:0 0 clamp(26px, 3.4vw, 44px);
+  }
+  .hero-title .row{
+    display:block;
+    overflow:hidden;
+  }
+  .hero-title .inner{
+    display:inline-block;
+    transform:translateY(108%);
+    opacity:0;
+    animation:reveal 1.2s var(--ease) .55s forwards;
+  }
+  .hero-title .row + .row .inner{
+    animation-delay:.85s;
+  }
+  .hero-title em{
+    font-style:italic;
+    font-weight:380;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 80,"WONK" 1;
+  }
+  .hero-rule{
+    display:block;
+    width:0;
+    height:1px;
+    margin:0 0 clamp(24px, 3vw, 36px);
+    background:var(--gold-deep);
+    opacity:0;
+    animation:rule-line 1.2s var(--ease) 1.15s forwards;
+  }
+  @keyframes rule-line{
+    0%   { width:0; opacity:0; }
+    100% { width:clamp(70px, 8vw, 108px); opacity:1; }
+  }
+  .hero-lede{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:460;
+    font-size:clamp(18px, 1.55vw, 23px);
+    line-height:1.55;
+    color:var(--ink-soft);
+    letter-spacing:-.005em;
+    max-width:440px;
+    margin:0 0 clamp(30px, 3.4vw, 44px);
+    font-variation-settings:"opsz" 96,"SOFT" 80,"WONK" 1;
+    opacity:0;
+    transform:translateY(12px);
+    animation:rise 1s var(--ease) 1.3s forwards;
+  }
+  .hero-meta{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    opacity:0;
+    transform:translateY(8px);
+    animation:rise .9s var(--ease) 1.5s forwards;
+  }
+  .hero-meta span{opacity:.75}
+  .hero-meta .sep{
+    width:14px;height:1px;background:var(--line);
+    opacity:1;
+  }
+  /* -------- Colonne visuelle (droite) -------- */
+  .hero-visual{
+    position:relative;
+    aspect-ratio:4/5;
+    width:100%;
+    max-width:520px;
+    justify-self:end;
+  }
+  /* Planche photographique : photo posée + cadre éditorial */
+  .hero-plate{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform:rotate(-1.2deg) translateY(28px);
+    opacity:0;
+    animation:plate-in 1.6s var(--ease) .7s forwards;
+    filter:drop-shadow(0 28px 60px rgba(14,27,44,.18))
+           drop-shadow(0 10px 24px rgba(14,27,44,.12));
+  }
+  @keyframes plate-in{
+    0%   { opacity:0; transform:rotate(-1.2deg) translateY(28px); }
+    100% { opacity:1; transform:rotate(-1.2deg) translateY(0); }
+  }
+  .hero-plate-frame{
+    position:absolute;
+    inset:-12px;
+    border:1px solid var(--gold-deep);
+    background:var(--ivory);
+    padding:14px;
+  }
+  .hero-plate-frame::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid var(--line-gold);
+    pointer-events:none;
+  }
+  .hero-plate img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    filter:saturate(.96) contrast(1.02);
+  }
+  /* Cartel manuscrit "des clés à toi" — étiquette rotée */
+  .hero-tag{
+    position:absolute;
+    top:-20px;
+    left:-22px;
+    z-index:4;
+    transform:rotate(-6deg);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 18px 10px;
+    background:var(--ivory);
+    border:1px solid var(--line-gold);
+    border-radius:999px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:14px;
+    line-height:1;
+    color:var(--gold-deep);
+    letter-spacing:.005em;
+    box-shadow:0 10px 28px -12px rgba(14,27,44,.22);
+    opacity:0;
+    animation:tag-in 1s var(--ease) 1.7s forwards;
+  }
+  .hero-tag .tag-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--gold-deep);
+  }
+  @keyframes tag-in{
+    to{ opacity:1; transform:rotate(-6deg) translateY(0); }
+  }
+  /* Cartel "cote inventaire" en bas à droite de la planche */
+  .hero-inv{
+    position:absolute;
+    bottom:-24px;
+    right:-12px;
+    z-index:4;
+    transform:rotate(2deg);
+    padding:7px 14px;
+    background:var(--ink);
+    color:var(--moon);
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    opacity:0;
+    animation:tag-in 1s var(--ease) 1.85s forwards;
+  }
+  /* Moon orb très discrète, derrière, en bas */
+  .hero-orb{
+    position:absolute;
+    bottom:-15%;
+    right:-12%;
+    width:46%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    z-index:0;
+    background:
+      radial-gradient(circle at 38% 35%,
+        rgba(233,217,182,.7) 0%,
+        rgba(200,145,75,.34) 32%,
+        rgba(156,106,46,.16) 64%,
+        rgba(156,106,46,0) 86%);
+    filter:blur(2px);
+    opacity:0;
+    animation:orb-rise 2s var(--ease) 1s forwards, drift 16s var(--ease) infinite alternate 2.5s;
+    pointer-events:none;
+  }
+  @keyframes orb-rise{
+    0%   { opacity:0; transform:scale(.92); }
+    100% { opacity:.45; transform:scale(1); }
+  }
+  @keyframes drift{
+    0%   { transform:scale(1) translate3d(0,0,0); }
+    100% { transform:scale(1.04) translate3d(-1.4%,1.6%,0); }
+  }
+  /* Folio "Les Clés — 08" en bas centre */
+  .hero-folio-bottom{
+    position:absolute;
+    left:50%;
+    bottom:clamp(46px, 5vw, 80px);
+    transform:translateX(-50%);
+    z-index:3;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:13px;
+    color:var(--ink-soft);
+    opacity:0;
+    animation:rise 1s var(--ease) 1.7s forwards;
+  }
+  .hero-folio-bottom .bar{
+    width:28px;height:1px;background:var(--gold-deep);
+  }
+  @keyframes rise{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes reveal{
+    to{ transform:translateY(0); opacity:1; }
+  }
+  /* Hero responsive */
+  @media(max-width:960px){
+    .hero{ padding:clamp(118px, 16vw, 150px) 28px clamp(70px, 11vw, 110px); }
+    .hero-cartel{ inset:clamp(98px, 13vw, 130px) 22px 24px; }
+    .hero-cornerL{ top:clamp(94px, 12vw, 126px); left:18px; }
+    .hero-cornerR{ bottom:18px; right:18px; }
+    .hero-grid{
+      grid-template-columns:1fr;
+      gap:clamp(54px, 9vw, 80px);
+      padding:24px;
+    }
+    .hero-text{ max-width:none; }
+    .hero-visual{ max-width:380px; justify-self:center; }
+    .hero-folio-bottom{ display:none; }
+  }
+  @media(max-width:560px){
+    .hero-title{ font-size:clamp(42px, 12vw, 60px); }
+    .hero-tag{ font-size:12px; padding:7px 13px; top:-18px; left:-14px; }
+    .hero-inv{ font-size:9.5px; padding:6px 11px; bottom:-18px; right:-6px; }
+    .hero-plate{ transform:rotate(0deg) translateY(0); }
+    .hero-plate-frame{ padding:10px; inset:-8px; }
+  }
+  /* =====================================================
+     SECTION 02 — BIBLIOTHÈQUE / 3 EBOOKS POSÉS À PLAT
+     Fond ivoire-2. Les 3 ebooks comme livres physiques
+     étalés sur une planche, légèrement inclinés.
+     I — payant (signature), II — gratuit, III — gratuit.
+     ===================================================== */
+  .biblio{
+    position:relative;
+    background:var(--ivory-2);
+    color:var(--ink);
+    padding:clamp(90px, 12vw, 150px) clamp(28px, 5vw, 80px) clamp(100px, 13vw, 170px);
+    isolation:isolate;
+    overflow:hidden;
+  }
+  /* texture textile très subtile */
+  .biblio::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(48deg,
+        rgba(156,106,46,.03) 0 1px,
+        transparent 1px 12px);
+    pointer-events:none;
+    z-index:0;
+  }
+  /* filet doré au sommet */
+  .biblio::after{
+    content:"";
+    position:absolute;
+    top:0;left:50%;transform:translateX(-50%);
+    width:clamp(70px, 8vw, 110px);
+    height:1px;
+    background:linear-gradient(90deg,
+      rgba(156,106,46,0),
+      var(--gold-deep) 50%,
+      rgba(156,106,46,0));
+  }
+  .biblio-head{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    max-width:780px;
+    margin:0 auto clamp(70px, 9vw, 110px);
+  }
+  .biblio-folio{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    color:var(--gold-deep);
+    font-family:var(--sans);
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    margin-bottom:clamp(26px, 3vw, 38px);
+  }
+  .biblio-folio .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--gold-deep);
+  }
+  .biblio-folio .bar{
+    width:30px;height:1px;background:rgba(14,27,44,.22);
+  }
+  .biblio-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(36px, 4.8vw, 68px);
+    line-height:1.06;
+    letter-spacing:-.018em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    margin-bottom:clamp(22px, 2.6vw, 32px);
+  }
+  .biblio-title em{
+    font-style:italic;
+    font-weight:380;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 90,"WONK" 1;
+  }
+  .biblio-lede{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:460;
+    font-size:clamp(17px, 1.4vw, 21px);
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:540px;
+    margin:0 auto;
+    font-variation-settings:"opsz" 96,"SOFT" 80,"WONK" 1;
+  }
+  .biblio-rule{
+    width:clamp(56px, 6vw, 80px);
+    height:1px;
+    background:var(--gold-deep);
+    margin:clamp(22px, 2.6vw, 32px) auto 0;
+  }
+  /* Planche : 3 ebooks étalés */
+  .biblio-stage{
+    position:relative;
+    z-index:2;
+    max-width:1280px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:clamp(28px, 4vw, 60px);
+    align-items:end;
+  }
+  /* Article ebook */
+  .book{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .9s var(--ease), transform .9s var(--ease);
+  }
+  .book.is-in{ opacity:1; transform:translateY(0); }
+  .book-I  { transition-delay:.05s; }
+  .book-II { transition-delay:.18s; }
+  .book-III{ transition-delay:.32s; }
+  .book-roman{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:340;
+    font-size:clamp(70px, 9vw, 130px);
+    line-height:.9;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+    margin-bottom:clamp(14px, 1.6vw, 22px);
+    opacity:.92;
+  }
+  /* Couverture stylisée — comme un livre photographié à plat */
+  .book-cover{
+    position:relative;
+    width:100%;
+    max-width:280px;
+    aspect-ratio:3/4.2;
+    background:var(--ivory);
+    border:1px solid var(--line-gold);
+    padding:clamp(22px, 2.4vw, 32px) clamp(16px, 1.8vw, 24px);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+    text-align:center;
+    box-shadow:
+      0 22px 44px -22px rgba(14,27,44,.32),
+      0 8px 18px -10px rgba(14,27,44,.18);
+    transition:transform .8s var(--ease), box-shadow .8s var(--ease);
+    will-change:transform;
+  }
+  .book-cover::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid var(--line-gold);
+    opacity:.5;
+    pointer-events:none;
+  }
+  /* dos du livre simulé */
+  .book-cover::after{
+    content:"";
+    position:absolute;
+    top:0;bottom:0;
+    right:-4px;
+    width:4px;
+    background:linear-gradient(180deg, rgba(14,27,44,.10), rgba(14,27,44,.25) 50%, rgba(14,27,44,.10));
+  }
+  /* Rotations & échelles individuelles */
+  .book-I  .book-cover{ transform:rotate(-2deg);   max-width:300px; }
+  .book-II .book-cover{ transform:rotate(1.5deg);  max-width:260px; }
+  .book-III .book-cover{ transform:rotate(-1.2deg); max-width:260px; }
+  /* Ebook payant légèrement en avant scénographiquement */
+  .book-I{ transform:translateY(-22px); }
+  .book-I.is-in{ transform:translateY(0); }
+  .book-II, .book-III{ padding-top:18px; }
+  .book-cover:hover{
+    transform:rotate(0deg) translateY(-6px);
+    box-shadow:
+      0 36px 60px -22px rgba(14,27,44,.36),
+      0 14px 24px -10px rgba(14,27,44,.22);
+  }
+  /* En-tête de couverture : étiquette / type */
+  .book-eyebrow{
+    font-family:var(--sans);
+    font-size:9.5px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:auto;
+  }
+  /* Titre Fraunces italic centré */
+  .book-cover h3{
+    font-family:var(--serif);
+    font-weight:340;
+    font-style:italic;
+    font-size:clamp(20px, 1.8vw, 27px);
+    line-height:1.15;
+    color:var(--ink);
+    font-variation-settings:"opsz" 96,"SOFT" 90,"WONK" 1;
+    letter-spacing:-.008em;
+    margin:auto 0;
+  }
+  .book-cover h3 em{
+    font-style:normal;
+    color:var(--gold-deep);
+  }
+  /* Trait or signature sous le titre */
+  .book-cover .book-mark{
+    width:32px;height:1px;
+    background:var(--gold-deep);
+    margin:clamp(14px, 1.4vw, 20px) auto 0;
+  }
+  .book-cover .book-form{
+    font-family:var(--sans);
+    font-size:9.5px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    opacity:.7;
+    margin-top:auto;
+  }
+  /* Étiquette manuscrite "manuscrit" qui qualifie chaque ebook */
+  .book-label{
+    position:absolute;
+    top:-14px;
+    left:-12px;
+    z-index:3;
+    padding:6px 14px 7px;
+    background:var(--ivory);
+    border:1px solid var(--line-gold);
+    border-radius:999px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:12px;
+    line-height:1;
+    color:var(--gold-deep);
+    box-shadow:0 8px 20px -10px rgba(14,27,44,.2);
+    transform:rotate(-6deg);
+    white-space:nowrap;
+  }
+  .book-II .book-label{ transform:rotate(5deg); left:auto; right:-14px; top:-12px; }
+  .book-III .book-label{ transform:rotate(-4deg); left:-14px; top:-10px; }
+  /* Description en dessous de la couverture */
+  .book-cap{
+    margin-top:clamp(28px, 3vw, 40px);
+    max-width:280px;
+  }
+  .book-cap p{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:460;
+    font-size:clamp(14.5px, 1.1vw, 16.5px);
+    line-height:1.55;
+    color:var(--ink-soft);
+    font-variation-settings:"opsz" 96,"SOFT" 80,"WONK" 1;
+  }
+  /* Mention prix / gratuit (discrète) */
+  .book-price{
+    margin-top:clamp(14px, 1.6vw, 20px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .book-price .num{
+    color:var(--gold-deep);
+    font-weight:600;
+  }
+  .book-price .sep{
+    width:14px;height:1px;background:var(--line);
+  }
+  /* CTA "Prendre" / "Recevoir" */
+  .book-cta{
+    margin-top:clamp(18px, 2vw, 26px);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 20px 12px;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    background:transparent;
+    border-radius:999px;
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    transition:background .35s, color .35s, transform .35s;
+    cursor:pointer;
+  }
+  .book-cta .arrow{
+    width:14px;height:1px;background:currentColor;position:relative;
+    transition:transform .35s;
+  }
+  .book-cta .arrow::after{
+    content:"";
+    position:absolute;
+    right:0;top:50%;
+    width:6px;height:6px;
+    border-top:1px solid currentColor;
+    border-right:1px solid currentColor;
+    transform:translate(0,-50%) rotate(45deg);
+  }
+  .book-cta:hover{
+    background:var(--ink);
+    color:var(--ivory);
+    transform:translateY(-2px);
+  }
+  .book-cta:hover .arrow{ transform:translateX(4px); }
+  /* Ebook payant : CTA filled gold-deep pour le distinguer subtilement */
+  .book-I .book-cta{
+    background:var(--gold-deep);
+    color:var(--ivory);
+    border-color:var(--gold-deep);
+  }
+  .book-I .book-cta:hover{
+    background:var(--ink);
+    border-color:var(--ink);
+  }
+  /* Biblio responsive */
+  @media(max-width:1024px){
+    .biblio-stage{
+      grid-template-columns:1fr;
+      gap:clamp(64px, 8vw, 90px);
+      max-width:480px;
+    }
+    .book-I{ transform:none; }
+    .book-I.is-in{ transform:none; }
+    .book-I .book-cover,
+    .book-II .book-cover,
+    .book-III .book-cover{ transform:rotate(0); }
+  }
+  /* =====================================================
+     SECTION 03 — HUMAN DESIGN / CARTEL DE MUSÉE
+     Pleine largeur ivoire. Rectangle gold-deep fin
+     enferme la "planche anatomique" éditoriale.
+     ===================================================== */
+  .hd{
+    position:relative;
+    background:var(--ivory);
+    color:var(--ink);
+    padding:clamp(110px, 14vw, 170px) clamp(28px, 5vw, 80px) clamp(110px, 14vw, 170px);
+    isolation:isolate;
+    overflow:hidden;
+  }
+  /* filet doré au sommet */
+  .hd::before{
+    content:"";
+    position:absolute;
+    top:0;left:50%;transform:translateX(-50%);
+    width:clamp(70px, 8vw, 110px);
+    height:1px;
+    background:linear-gradient(90deg,
+      rgba(156,106,46,0),
+      var(--gold-deep) 50%,
+      rgba(156,106,46,0));
+  }
+  /* Moon orb subtile, posée derrière le cartel */
+  .hd-orb{
+    position:absolute;
+    top:8%;
+    right:-10%;
+    width:46%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    z-index:0;
+    background:
+      radial-gradient(circle at 38% 35%,
+        rgba(233,217,182,.78) 0%,
+        rgba(200,145,75,.38) 30%,
+        rgba(156,106,46,.18) 62%,
+        rgba(156,106,46,0) 86%);
+    filter:blur(2px);
+    opacity:.42;
+    animation:drift 18s var(--ease) infinite alternate;
+    pointer-events:none;
+  }
+  .hd-shell{
+    position:relative;
+    z-index:2;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  /* Cartel : rectangle gold-deep encadrant la planche */
+  .hd-frame{
+    position:relative;
+    border:1px solid var(--gold-deep);
+    padding:clamp(48px, 6vw, 96px) clamp(34px, 5vw, 76px) clamp(54px, 6.5vw, 96px);
+    background:
+      linear-gradient(180deg,
+        rgba(243,236,223,0) 0%,
+        rgba(237,227,209,.4) 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(156,106,46,.08),
+      0 30px 80px -40px rgba(14,27,44,.22);
+  }
+  /* coins éditoriaux marquants */
+  .hd-frame::before,
+  .hd-frame::after{
+    content:"";
+    position:absolute;
+    width:18px;height:18px;
+    border:1px solid var(--gold-deep);
+  }
+  .hd-frame::before{
+    top:-9px;left:-9px;
+    border-right:none;border-bottom:none;
+  }
+  .hd-frame::after{
+    bottom:-9px;right:-9px;
+    border-left:none;border-top:none;
+  }
+  /* Étiquette "pièce maîtresse" rotée */
+  .hd-piece{
+    position:absolute;
+    top:-22px;
+    left:clamp(28px, 4vw, 60px);
+    transform:rotate(-4deg);
+    padding:8px 18px 9px;
+    background:var(--ink);
+    color:var(--moon);
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    box-shadow:0 12px 28px -14px rgba(14,27,44,.42);
+    z-index:3;
+  }
+  /* Eyebrow type folio à l'intérieur du cartel */
+  .hd-folio{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:var(--gold-deep);
+    font-family:var(--sans);
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    margin-bottom:clamp(28px, 3.2vw, 44px);
+  }
+  .hd-folio .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--gold-deep);
+  }
+  .hd-folio .bar{
+    width:32px;height:1px;background:rgba(14,27,44,.22);
+  }
+  .hd-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+    gap:clamp(40px, 6vw, 90px);
+    align-items:start;
+  }
+  /* Colonne gauche : titre + texte + CTA */
+  .hd-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(38px, 5vw, 72px);
+    line-height:1.04;
+    letter-spacing:-.018em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 30,"WONK" 0;
+    margin-bottom:clamp(24px, 3vw, 38px);
+  }
+  .hd-title em{
+    font-style:italic;
+    font-weight:380;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+  }
+  .hd-rule{
+    display:block;
+    width:clamp(60px, 7vw, 90px);
+    height:1px;
+    background:var(--gold-deep);
+    margin-bottom:clamp(24px, 3vw, 36px);
+  }
+  .hd-body{
+    font-family:var(--sans);
+    font-weight:400;
+    font-size:clamp(15.5px, 1.15vw, 17.5px);
+    line-height:1.7;
+    color:var(--ink-soft);
+    max-width:480px;
+  }
+  .hd-body p + p{ margin-top:1em; }
+  .hd-body em{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:480;
+    color:var(--ink);
+    font-variation-settings:"opsz" 96,"SOFT" 80,"WONK" 1;
+  }
+  .hd-body .pivot{
+    display:block;
+    margin-top:1.2em;
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:480;
+    font-size:clamp(17px, 1.3vw, 21px);
+    line-height:1.45;
+    color:var(--ink);
+    font-variation-settings:"opsz" 96,"SOFT" 90,"WONK" 1;
+  }
+  /* CTA + mention prix */
+  .hd-cta-wrap{
+    margin-top:clamp(32px, 3.4vw, 48px);
+    display:flex;
+    align-items:center;
+    gap:clamp(18px, 2vw, 28px);
+    flex-wrap:wrap;
+  }
+  .hd-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 26px;
+    background:var(--gold-deep);
+    color:var(--ivory);
+    border:1px solid var(--gold-deep);
+    border-radius:999px;
+    font-family:var(--sans);
+    font-size:12px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    transition:background .35s, transform .35s;
+  }
+  .hd-cta:hover{
+    background:var(--ink);
+    border-color:var(--ink);
+    transform:translateY(-2px);
+  }
+  .hd-cta .arrow{
+    width:16px;height:1px;background:currentColor;position:relative;
+  }
+  .hd-cta .arrow::after{
+    content:"";
+    position:absolute;
+    right:0;top:50%;
+    width:6px;height:6px;
+    border-top:1px solid currentColor;
+    border-right:1px solid currentColor;
+    transform:translate(0,-50%) rotate(45deg);
+  }
+  .hd-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .hd-meta .sep{
+    width:14px;height:1px;background:var(--line);
+  }
+  /* Colonne droite : glossaire-vignette des 4 portes d'entrée */
+  .hd-glossary{
+    position:relative;
+    background:rgba(237,227,209,.55);
+    border:1px solid var(--line-gold);
+    padding:clamp(28px, 3.4vw, 44px) clamp(26px, 3vw, 40px);
+  }
+  .hd-glossary::before{
+    content:"";
+    position:absolute;
+    top:-14px;
+    right:24px;
+    transform:rotate(4deg);
+    padding:5px 12px;
+    background:var(--ivory);
+    border:1px solid var(--line-gold);
+    border-radius:999px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:12px;
+    color:var(--gold-deep);
+    content:"portes d'entrée";
+    line-height:1.2;
+  }
+  .hd-glossary h4{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:clamp(22px, 2.4vw, 30px);
+  }
+  .hd-glossary dl{
+    display:flex;
+    flex-direction:column;
+    gap:clamp(18px, 2vw, 26px);
+  }
+  .hd-glossary dt{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:380;
+    font-size:clamp(20px, 1.6vw, 24px);
+    line-height:1.1;
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 96,"SOFT" 90,"WONK" 1;
+    padding-left:14px;
+    border-left:1px solid var(--gold-deep);
+    margin-bottom:6px;
+  }
+  .hd-glossary dd{
+    font-family:var(--sans);
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    padding-left:14px;
+  }
+  /* HD responsive */
+  @media(max-width:960px){
+    .hd-grid{ grid-template-columns:1fr; gap:clamp(40px, 7vw, 64px); }
+    .hd-frame{ padding:clamp(48px, 8vw, 64px) clamp(24px, 5vw, 40px); }
+    .hd-piece{ left:18px; top:-18px; }
+  }
+  /* SECTION 04 (Comment ça se passe) supprimée — voir directive 2026-05-11 */
+  .clarte-DEAD-DO-NOT-USE{
+    position:relative;
+    background:var(--ink);
+    color:var(--ivory);
+    padding:clamp(80px, 10vw, 120px) clamp(28px, 5vw, 80px);
+    isolation:isolate;
+    overflow:hidden;
+  }
+  /* filet or central */
+  .clarte::before{
+    content:"";
+    position:absolute;
+    top:0;left:50%;transform:translateX(-50%);
+    width:clamp(70px, 8vw, 110px);
+    height:1px;
+    background:linear-gradient(90deg,
+      rgba(200,145,75,0),
+      var(--gold) 50%,
+      rgba(200,145,75,0));
+  }
+  .clarte-shell{
+    position:relative;
+    max-width:880px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .clarte-folio{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    color:var(--moon);
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    margin-bottom:clamp(26px, 3vw, 36px);
+    opacity:.85;
+  }
+  .clarte-folio .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--gold);
+  }
+  .clarte-folio .bar{
+    width:28px;height:1px;background:rgba(233,217,182,.4);
+  }
+  .clarte-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-style:italic;
+    font-size:clamp(28px, 3.4vw, 46px);
+    line-height:1.18;
+    color:var(--ivory);
+    font-variation-settings:"opsz" 144,"SOFT" 80,"WONK" 1;
+    margin-bottom:clamp(34px, 4vw, 48px);
+  }
+  .clarte-title em{ color:var(--gold); font-style:italic; }
+  /* Filet central — pas de CTA */
+  .clarte-rule{
+    width:clamp(60px, 7vw, 90px);
+    height:1px;
+    background:var(--gold);
+    margin:0 auto clamp(30px, 3.4vw, 42px);
+  }
+  .clarte-list{
+    display:flex;
+    flex-direction:column;
+    gap:clamp(12px, 1.4vw, 18px);
+    font-family:var(--sans);
+    font-size:clamp(15px, 1.15vw, 17px);
+    line-height:1.6;
+    color:rgba(243,236,223,.86);
+    letter-spacing:.005em;
+  }
+  .clarte-list p{ margin:0; }
+  .clarte-list .strike{
+    color:var(--moon);
+    font-style:italic;
+    font-family:var(--serif);
+    font-variation-settings:"opsz" 96,"SOFT" 80,"WONK" 1;
+  }
+  .clarte-stamp{
+    margin-top:clamp(34px, 4vw, 50px);
+    display:inline-block;
+    font-family:var(--serif-it);
+    font-style:italic;
+    font-size:15px;
+    color:var(--gold);
+    letter-spacing:.005em;
+    opacity:.9;
+  }
+  /* =====================================================
+     TICKER MANTRA (entre Comment ça se passe et CTA final)
+     Discret, ivoire-2, italique gold-deep
+     ===================================================== */
+  .ticker{
+    position:relative;
+    background:var(--ivory-2);
+    color:var(--gold-deep);
+    overflow:hidden;
+    border-top:1px solid var(--line-gold);
+    border-bottom:1px solid var(--line-gold);
+    padding:clamp(18px, 2vw, 28px) 0;
+  }
+  .ticker-track{
+    display:flex;
+    width:max-content;
+    gap:48px;
+    animation:slide 38s linear infinite;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(16px, 1.4vw, 22px);
+    font-weight:460;
+    font-variation-settings:"opsz" 144,"SOFT" 90,"WONK" 1;
+  }
+  .ticker-track span{display:inline-flex;align-items:center;gap:48px;white-space:nowrap}
+  .ticker-track .star{color:var(--gold);font-style:normal;}
+  @keyframes slide{
+    0%   { transform:translateX(0); }
+    100% { transform:translateX(-50%); }
+  }
+  /* =====================================================
+     SECTION 05 — CTA FINAL (fond ivoire, discret)
+     ===================================================== */
+  .cta-final{
+    position:relative;
+    background:var(--ivory);
+    color:var(--ink);
+    padding:clamp(100px, 13vw, 170px) clamp(28px, 5vw, 80px) clamp(110px, 13vw, 170px);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .cta-final::before{
+    content:"";
+    position:absolute;
+    top:0;left:50%;transform:translateX(-50%);
+    width:clamp(70px, 8vw, 110px);
+    height:1px;
+    background:linear-gradient(90deg,
+      rgba(156,106,46,0),
+      var(--gold-deep) 50%,
+      rgba(156,106,46,0));
+  }
+  .cta-final-shell{
+    position:relative;
+    max-width:780px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .cta-final-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    color:var(--gold-deep);
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    margin-bottom:clamp(24px, 3vw, 36px);
+  }
+  .cta-final-eyebrow .bar{
+    width:36px;height:1px;background:var(--gold-deep);
+  }
+  .cta-final-title{
+    font-family:var(--serif);
+    font-weight:340;
+    font-style:italic;
+    font-size:clamp(32px, 4.4vw, 60px);
+    line-height:1.12;
+    letter-spacing:-.018em;
+    color:var(--ink);
+    font-variation-settings:"opsz" 144,"SOFT" 90,"WONK" 1;
+    margin-bottom:clamp(24px, 3vw, 34px);
+  }
+  .cta-final-title em{ color:var(--gold-deep); font-style:italic; }
+  .cta-final-sub{
+    font-family:var(--sans);
+    font-size:clamp(14.5px, 1.1vw, 16.5px);
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin:0 auto clamp(36px, 4vw, 50px);
+  }
+  .cta-final-rule{
+    display:block;
+    width:clamp(60px, 7vw, 90px);
+    height:1px;
+    background:var(--gold-deep);
+    margin:0 auto clamp(36px, 4vw, 50px);
+  }
+  .cta-final-actions{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .cta-final-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 28px;
+    border-radius:999px;
+    font-family:var(--sans);
+    font-size:12px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    transition:background .35s, color .35s, transform .35s, border-color .35s;
+  }
+  .cta-final-btn--primary{
+    background:var(--ink);
+    color:var(--ivory);
+    border:1px solid var(--ink);
+  }
+  .cta-final-btn--primary:hover{
+    background:var(--gold-deep);
+    border-color:var(--gold-deep);
+    transform:translateY(-2px);
+  }
+  .cta-final-btn--ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+  }
+  .cta-final-btn--ghost:hover{
+    background:var(--ink);
+    color:var(--ivory);
+    transform:translateY(-2px);
+  }
+  .cta-final-btn .arrow{
+    width:16px;height:1px;background:currentColor;position:relative;
+    transition:transform .35s;
+  }
+  .cta-final-btn .arrow::after{
+    content:"";
+    position:absolute;
+    right:0;top:50%;
+    width:6px;height:6px;
+    border-top:1px solid currentColor;
+    border-right:1px solid currentColor;
+    transform:translate(0,-50%) rotate(45deg);
+  }
+  .cta-final-btn:hover .arrow{ transform:translateX(4px); }
+  /* =====================================================
+     FOOTER ivoire — repris du Mockup 1 (pattern site)
+     ===================================================== */
+  footer{
+    background:var(--ivory);
+    color:var(--ink);
+    padding:88px 40px 44px;
+    border-top:1px solid var(--line);
+    position:relative;
+  }
+  .foot{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+    max-width:1400px;
+    margin:0 auto;
+  }
+  .foot-brand{
+    font-family:var(--serif);
+    font-size:32px;line-height:1.05;font-weight:340;
+  }
+  .foot-brand i{
+    color:var(--gold-deep);
+    font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;
+  }
+  footer p{
+    margin-top:20px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    max-width:34ch;
+  }
+  footer p .sig{
+    display:block;
+    margin-top:14px;
+    font-family:var(--serif-it);
+    font-style:italic;
+    color:var(--gold-deep);
+    font-size:17px;
+  }
+  footer h5{
+    font-size:11px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:18px;
+  }
+  footer ul{
+    list-style:none;
+    display:grid;
+    gap:12px;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+  footer a{ transition:color .3s; }
+  footer a:hover{ color:var(--gold-deep); }
+  .foot-bottom{
+    max-width:1400px;
+    margin:60px auto 0;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;
+    gap:20px;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:rgba(14,27,44,.55);
+    flex-wrap:wrap;
+  }
+  .foot-legal{ display:flex; gap:22px; flex-wrap:wrap; }
+  .foot-legal a:hover{ color:var(--gold-deep); }
+  @media(max-width:900px){
+    .foot{ grid-template-columns:1fr 1fr; }
+    .foot-bottom{ flex-direction:column; align-items:flex-start; }
+  }
+  @media(max-width:560px){
+    footer{ padding:64px 22px 32px; }
+    .foot{ grid-template-columns:1fr; }
+  }
+  /* =====================================================
+     REVEAL utility — IntersectionObserver
+     ===================================================== */
+  [data-reveal]{
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  [data-reveal].is-in{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-cartel,.hero-cornerL,.hero-cornerR,
+    .hero-folio,.hero-title .inner,.hero-rule,.hero-lede,
+    .hero-meta,.hero-plate,.hero-tag,.hero-inv,.hero-orb,
+    .hero-eyebrow,.hero-folio-bottom,
+    .ticker-track,.book,.hd-orb,
+    [data-reveal]{
+      animation:none;
+      opacity:1;
+      transform:none;
+    }
+    .hero-plate{ transform:rotate(-1.2deg); }
+    .hero-tag{ transform:rotate(-6deg); }
+    .hero-inv{ transform:rotate(2deg); }
+    .hd-piece{ transform:rotate(-4deg); }
+    .book-I .book-cover{ transform:rotate(-2deg); }
+    .book-II .book-cover{ transform:rotate(1.5deg); }
+    .book-III .book-cover{ transform:rotate(-1.2deg); }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://www.lapuissancedeleveil.com/#eva",
+  "name": "Eva Naudet",
+  "alternateName": "La Puissance de l'Éveil",
+  "jobTitle": "Coach holistique",
+  "url": "https://www.lapuissancedeleveil.com/",
+  "sameAs": [
+    "https://www.instagram.com/naudet.eva",
+    "https://open.spotify.com/show/4IV0enDstewtB63icJrPPo",
+    "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html"
+  ],
+  "subjectOf": [
+    {
+      "@type": "NewsArticle",
+      "headline": "Atteinte de sclérose en plaques, Eva est devenue influenceuse pour partager son combat",
+      "url": "https://www.franceinfo.fr/sante/medicament/atteinte-de-sclerose-en-plaques-eva-est-devenue-influenceuse-pour-partager-son-combat_4646147.html",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France Info", "url": "https://www.franceinfo.fr/" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — Brut",
+      "url": "https://www.facebook.com/share/v/1HuQZQseKK/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "Brut", "url": "https://www.brut.media/fr" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Interview d'Eva Naudet — France 3 Côte d'Azur",
+      "url": "https://www.facebook.com/share/v/1HGqe5gzAP/",
+      "publisher": { "@type": "NewsMediaOrganization", "name": "France 3 Côte d'Azur", "url": "https://france3-regions.francetvinfo.fr/provence-alpes-cote-d-azur/" }
+    }
+  ]
+}
+</script>

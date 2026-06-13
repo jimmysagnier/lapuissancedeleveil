@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import head from '../snippets/rdv-decouverte.head.html?raw';
+import body from '../snippets/rdv-decouverte.body.html?raw';
+const title = "RDV découverte — La Puissance de l'Éveil / Eva Naudet";
+const description = "Un premier rendez-vous gratuit de 30 minutes pour vérifier si nous sommes faites pour avancer ensemble. Eva Naudet, coach holistique.";
+---
+<Base title={title} description={description}>
+<Fragment slot="head" set:html={head} />
+<Fragment set:html={body} />
+</Base>

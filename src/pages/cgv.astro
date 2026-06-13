@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import head from '../snippets/cgv.head.html?raw';
+import body from '../snippets/cgv.body.html?raw';
+const title = "CGV & Code de déontologie — La Puissance de l'Éveil / Eva Naudet";
+const description = "Conditions générales de vente et code de déontologie du coach. Cadre, engagements et éthique de la relation d'accompagnement — Eva Naudet, coach holistique.";
+---
+<Base title={title} description={description}>
+<Fragment slot="head" set:html={head} />
+<Fragment set:html={body} />
+</Base>
