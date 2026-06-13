@@ -7,6 +7,13 @@ interface Props {
   description?: string;
 }
 const { title, description } = Astro.props;
+
+// URL canonique : forme .html (sauf racine) pour coller au sitemap
+const p = Astro.url.pathname;
+const canonicalPath = (p === '/' || p === '' || p === '/index.html') ? '/' : (p.endsWith('.html') ? p : p.replace(/\/$/, '') + '.html');
+const canonical = new URL(canonicalPath, Astro.site).href;
+const ogImage = new URL('/assets/og-default.jpg', Astro.site).href;
+const shareDesc = description ?? "Eva Naudet, coach holistique pour femmes en renaissance.";
 ---
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,6 +28,23 @@ const { title, description } = Astro.props;
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="canonical" href={canonical} />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:site_name" content="La Puissance de l'Éveil" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={shareDesc} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Eva Naudet, coach holistique · La Puissance de l'Éveil" />
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={shareDesc} />
+<meta name="twitter:image" content={ogImage} />
 <slot name="head" />
 </head>
 <body>
