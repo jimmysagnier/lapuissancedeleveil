@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.lapuissancedeleveil.com/sitemap.xml
+Sitemap: https://www.lapuissancedeleveil.com/sitemap-index.xml
