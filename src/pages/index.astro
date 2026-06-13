@@ -2,9 +2,10 @@
 import Base from '../layouts/Base.astro';
 import head from '../snippets/index.head.html?raw';
 import body from '../snippets/index.body.html?raw';
-const title = "La Puissance de l'Éveil — Eva Naudet, Coach Holistique";
+const title = "Coach holistique & Human Design | La Puissance de l'Éveil";
+const description = "Eva Naudet, coach holistique pour femmes en renaissance. Sors du mode survie et reconnecte-toi à qui tu es vraiment. Réserve ton appel découverte gratuit.";
 ---
-<Base title={title}>
+<Base title={title} description={description}>
 <Fragment slot="head" set:html={head} />
 <Fragment set:html={body} />
 </Base>
