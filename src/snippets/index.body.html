@@ -1,4 +1,4 @@
-
+﻿
 <!-- NAVIGATION -->
 <site-header theme="dark"></site-header>
 
@@ -20,8 +20,8 @@
     <div class="hero-mid">
       <p class="hero-lede">Je ne suis pas là pour te réparer.<br>Je suis là pour te reconnecter à qui tu es vraiment.</p>
       <div class="hero-ctas">
-        <a href="rdv-decouverte.html" class="hero-cta primary">
-          Prendre rendez-vous découverte
+        <a href="chemin-vers-toi.html#cardEveil" class="hero-cta primary">
+          Je fais le premier pas
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
         <a href="chemin-vers-toi.html" class="hero-cta ghost">
@@ -120,6 +120,41 @@
     </div>
   </header>
 
+  
+  <div class="tirage tirage--seuil" role="list" aria-label="Première porte">
+    <article class="carte carte--eveil" role="listitem" aria-labelledby="carte-eveil-name">
+      <div class="carte-inner">
+        <span class="carte-frame" aria-hidden="true"></span>
+        <span class="carte-corner tl" aria-hidden="true"></span>
+        <span class="carte-corner tr" aria-hidden="true"></span>
+        <span class="carte-corner bl" aria-hidden="true"></span>
+        <span class="carte-corner br" aria-hidden="true"></span>
+        <div class="carte-body">
+          <div class="carte-numeral"><span class="rule"></span><span class="roman">0</span><span class="rule"></span></div>
+          <span class="carte-glyph" aria-hidden="true"></span>
+          <div class="carte-symbol" aria-hidden="true">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="28"/>
+              <path d="M 18,50 C 30,28 70,28 82,50 C 70,72 30,72 18,50 Z"/>
+              <circle cx="50" cy="50" r="8"/>
+              <line x1="50" y1="8" x2="50" y2="20"/>
+              <line x1="50" y1="80" x2="50" y2="92"/>
+              <line x1="8" y1="50" x2="20" y2="50"/>
+              <line x1="80" y1="50" x2="92" y2="50"/>
+            </svg>
+          </div>
+          <h3 id="carte-eveil-name" class="carte-name">L&rsquo;Éveil</h3>
+          <span class="carte-sublabel">Séance individuelle &mdash; 90 min</span>
+          <p class="carte-desc">Tu n&rsquo;es pas perdue. Tu tournes simplement en rond dans un mécanisme qui t&rsquo;a permis de survivre. 90 minutes pour mettre en lumière ce qui se joue vraiment.</p>
+          <div class="carte-foot">
+            <span class="carte-foot-glyph" aria-hidden="true"></span>
+            <span class="carte-price">150&nbsp;€</span>
+            <a class="carte-cta" href="chemin-vers-toi.html#cardEveil"><span>Je fais le premier pas</span><span class="arrow" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
   <div class="tirage" role="list">
 
     <!-- ============= CARTE I — LE CHEMIN VERS TOI ============= -->
@@ -205,7 +240,7 @@
 
           <div class="carte-foot">
             <span class="carte-foot-glyph" aria-hidden="true"></span>
-            <span class="carte-price">Sur demande</span>
+            <span class="carte-price">197&nbsp;€</span>
             <a class="carte-cta" href="portes-evolution.html">
               <span>Découvrir Les Portes</span>
               <span class="arrow" aria-hidden="true"></span>
@@ -756,5 +791,21 @@
       el.style.transitionDelay = (80 + i * 280) + 'ms';
       io.observe(el);
     });
+  })();
+</script>
+
+<script>
+  (function(){
+    function bindClickableCards(selector){
+      document.querySelectorAll(selector).forEach(function(card){
+        const link = card.querySelector('a[href]');
+        if(!link) return;
+        card.addEventListener('click', function(event){
+          if(event.target.closest('a, button, input, textarea, select')) return;
+          window.location.href = link.getAttribute('href');
+        });
+      });
+    }
+    bindClickableCards('.chemins .carte');
   })();
 </script>

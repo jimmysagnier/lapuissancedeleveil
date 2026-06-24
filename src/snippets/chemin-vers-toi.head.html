@@ -1,4 +1,4 @@
-<style>
+﻿<style>
   :root{
     --ink:#0E1B2C;
     --ink-soft:#1B2A3F;
@@ -4397,3 +4397,27 @@
   ]
 }
 </script>
+
+<style id="EVEIL_OFFERS_ADDITIONS">
+  .offres{padding-left:clamp(18px,2vw,34px);padding-right:clamp(18px,2vw,34px)}
+  .offres .of-stage{max-width:none;width:100%;overflow-x:auto;padding-bottom:18px}
+  .offres .of-grid{grid-template-columns:repeat(4,minmax(340px,390px));max-width:none;width:max-content;gap:clamp(28px,2.8vw,42px);align-items:start;margin-left:auto;margin-right:auto}
+  .offres .card{min-height:clamp(780px,74vw,1060px);padding:clamp(32px,2.6vw,42px) clamp(26px,2.2vw,34px)}
+  .offres .card-eveil .card-title{font-size:clamp(40px,3.1vw,58px)}
+  .offres .card-eveil .card-tag{max-width:32ch;letter-spacing:.16em;line-height:1.55}
+  .offres .card-eveil .price-num{font-size:clamp(58px,5.2vw,92px)}
+  .offres .card-eveil .card-cta-txt{white-space:normal;line-height:1.15}
+  .offres .card-eveil .card-block{margin-bottom:clamp(14px,1.4vw,20px)}
+  .offres .card-eveil .card-list li,.offres #cardPassage .card-list li{font-size:clamp(12.5px,.86vw,14.5px);line-height:1.46;margin-bottom:.56em}
+  .offres .card-eveil .card-intro{font-size:clamp(13px,.9vw,15px);line-height:1.45}
+  .offres .card-eveil .card-list-check li::before,.offres #cardPassage .card-list-check li::before{content:'✓';width:auto;height:auto;background:none;color:var(--gold-deep);font-family:var(--sans);font-weight:600;margin-top:0}
+  .offres .card-eveil .card-struct{font-size:clamp(12px,.9vw,14px);line-height:1.5}
+  .offres .card-goal span{font-family:var(--sans);font-style:normal;font-weight:400;color:var(--ink);line-height:1.5}
+  .offres .card-goal .arr{font-family:var(--serif-it);font-style:italic;color:var(--gold-deep);margin-right:.25em}
+  .offres #cardPassage .card-goal span{font-size:clamp(12.5px,.86vw,14.5px);line-height:1.42}
+  .offres .card,.offres .card-wrap-revelation{cursor:pointer;}
+  .offres .card:focus-within{outline:1px solid rgba(14,27,44,.5);outline-offset:6px;}
+  .offres .of-balance{display:none}
+  @media(max-width:1600px){.offres .of-grid{grid-template-columns:repeat(4,minmax(340px,390px));min-width:1510px;max-width:none}.offres .card{min-height:auto}}
+  @media(max-width:760px){.offres .of-grid{grid-template-columns:1fr;min-width:0;width:100%;max-width:420px}.offres .of-stage{overflow-x:visible}.offres .card{min-height:auto}.offres .card.passage,.offres .card.revelation{transform:translateY(20px)}.offres .card.passage.is-on,.offres .card.revelation.is-on{transform:translateY(0)}}
+</style>
