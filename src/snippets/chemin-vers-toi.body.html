@@ -1992,6 +1992,7 @@
   // (les data-reveal de l'eyebrow / title / balance sont ramassés par l'observer existant ligne ~1683).
   (function(){
     const grid = document.getElementById('ofGrid');
+    const cardEveil = document.getElementById('cardEveil');
     const cardHD = document.getElementById('cardHD');
     const cardPassage = document.getElementById('cardPassage');
     const wrapRev = document.getElementById('wrapRevelation');
@@ -2001,6 +2002,7 @@
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!('IntersectionObserver' in window) || reduce){
+      if (cardEveil) cardEveil.classList.add('is-on');
       if (cardHD) cardHD.classList.add('is-on');
       cardPassage.classList.add('is-on');
       wrapRev.classList.add('is-on');
@@ -2011,6 +2013,7 @@
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if (e.isIntersecting){
+          if (cardEveil) cardEveil.classList.add('is-on');
           if (cardHD) cardHD.classList.add('is-on');
           setTimeout(()=>{ cardPassage.classList.add('is-on'); }, 140);
           setTimeout(()=>{

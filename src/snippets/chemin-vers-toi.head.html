@@ -4403,6 +4403,7 @@
   .offres .of-stage{max-width:none;width:100%;overflow-x:auto;padding-bottom:18px}
   .offres .of-grid{grid-template-columns:repeat(4,minmax(340px,390px));max-width:none;width:max-content;gap:clamp(28px,2.8vw,42px);align-items:start;margin-left:auto;margin-right:auto}
   .offres .card{min-height:clamp(780px,74vw,1060px);padding:clamp(32px,2.6vw,42px) clamp(26px,2.2vw,34px)}
+  .offres .card-eveil.is-on{opacity:1;transform:translateY(0)}
   .offres .card-eveil .card-title{font-size:clamp(40px,3.1vw,58px)}
   .offres .card-eveil .card-tag{max-width:32ch;letter-spacing:.16em;line-height:1.55}
   .offres .card-eveil .price-num{font-size:clamp(58px,5.2vw,92px)}
@@ -4419,5 +4420,5 @@
   .offres .card:focus-within{outline:1px solid rgba(14,27,44,.5);outline-offset:6px;}
   .offres .of-balance{display:none}
   @media(max-width:1600px){.offres .of-grid{grid-template-columns:repeat(4,minmax(340px,390px));min-width:1510px;max-width:none}.offres .card{min-height:auto}}
-  @media(max-width:760px){.offres .of-grid{grid-template-columns:1fr;min-width:0;width:100%;max-width:420px}.offres .of-stage{overflow-x:visible}.offres .card{min-height:auto}.offres .card.passage,.offres .card.revelation{transform:translateY(20px)}.offres .card.passage.is-on,.offres .card.revelation.is-on{transform:translateY(0)}}
+  @media(max-width:760px){.offres .of-grid{grid-template-columns:1fr;min-width:0;width:100%;max-width:420px}.offres .of-stage{overflow-x:visible}.offres .card{min-height:auto}.offres .card.passage,.offres .card.revelation,.offres .card-wrap-revelation{opacity:1;transform:translateY(0)}.offres .card-cta{width:100%;justify-content:center;text-align:center}.offres .card-cta-arr{flex:0 0 44px}}
 </style>
